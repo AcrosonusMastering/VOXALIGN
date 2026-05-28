@@ -1,4 +1,4 @@
-# Align Takes — Async v13.0.0
+# VOXALIGN
 
 > **Hybrid high-precision temporal alignment for REAPER**
 > Multi-feature DTW · Parabolic sub-frame interpolation · Melodyne-style vocal segmentation
