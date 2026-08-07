@@ -1,136 +1,166 @@
-# VOXALIGN
 
-> **Hybrid high-precision temporal alignment for REAPER**
-> Multi-feature DTW · Parabolic sub-frame interpolation · Melodyne-style vocal segmentation
+# VoxAlign v1
 
----
+![REAPER Version](https://img.shields.io/badge/REAPER-v7.0%2B-007ACC?style=for-the-badge&logo=cockos)
+![ReaImGui Version](https://img.shields.io/badge/ReaImGui-v0.9.3%2B-4BC51D?style=for-the-badge)
+![Language](https://img.shields.io/badge/Language-Lua%205.3-blueviolet?style=for-the-badge&logo=lua)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-## Overview
+**VoxAlign** is an advanced, open-source audio alignment ReaScript for **Cockos REAPER**. It provides studio-grade vocal and instrument alignment directly inside REAPER—without requiring external plugins, third-party executables, or DLL dependencies.
 
-**Align Takes** is a REAPER script (Lua + ReaImGui) designed to automatically align vocal takes (dubs, overdubs, ADR) to a reference take. It combines three complementary analysis methods to produce precise, musically natural alignment — without robotic-sounding artifacts.
-
-The script places **Stretch Markers** directly on target audio items, with **sub-frame precision** achieved through parabolic interpolation.
-
----
-
-## Features
-
-### Step 1 — Global Macro-Alignment
-Detects and corrects the global time offset between the reference and each dub using a voting system across three methods:
-
-- **Fingerprint** — acoustic fingerprinting via envelope peak hashing
-- **Waveform** — normalized cross-correlation (NCC) with sub-sample parabolic interpolation
-- **Envelope** — multi-band RMS envelope correlation
-
-**AUTO** mode automatically selects the most reliable method by consensus. `FINGERPRINT`, `WAVEFORM`, and `ENVELOPE` modes allow forcing a specific method.
-
-### Step 1.5 — Vocal Segmentation (Melodyne-style)
-Identifies active tonal regions ("Blobs") in the vocal signal by combining:
-
-- **RMS** with an adaptive threshold based on the noise floor
-- **ZCR** (Zero Crossing Rate) to distinguish tonal sounds from noise
-- **Spectral Flux** to detect consonants and transients
-- **Gap Bridging** to merge nearby blobs into continuous regions
-
-Only valid signal zones participate in DTW alignment, preventing erratic anchors on silences or breaths.
-
-### Step 2 — DTW Micro-Alignment (Dynamic Time Warping)
-Asynchronous chunked DTW with multi-feature analysis, including:
-
-- **Slope Penalty** to prevent staircase artifacts and force smooth, natural warping paths
-- **Per-anchor confidence scoring** (`flux_score + energy_score`) to reject unreliable warp points
-- **Dynamic micro-alignment windows** based on attack type (ONSET / START / END)
-- **Sub-frame parabolic interpolation** on Spectral Flux for positioning finer than a single hop
-- **Optional Zero Crossing** snapping to place markers exactly at zero-crossings (click prevention)
-- **Adjustable alignment strength** (0–100%) for a natural blend between original and target
+Powered by a **3-Level Pyramidal FastDTW engine**, **4-band spectral Biquad analysis**, and **psychoacoustic breath protection**, VoxAlign automatically synchronizes double-tracked vocals, backing choirs, acoustic instruments, and percussive takes with sub-frame accuracy.
 
 ---
 
-## Requirements
+## ✨ Features
 
-| Dependency | Minimum Version |
-|---|---|
-| REAPER | 7.0+ |
-| [ReaImGui](https://github.com/cfillion/reaimgui) | 0.9.3+ |
-
----
-
-## Installation
-
-1. Copy `align_13.lua` into your REAPER Scripts folder:
-   - Windows: `%APPDATA%\REAPER\Scripts\`
-   - macOS: `~/Library/Application Support/REAPER/Scripts/`
-2. In REAPER: **Actions → Show action list → Load…** → select the file
-3. Assign a keyboard shortcut or run it directly from the action list
+* **100% Pure Lua Engine**: Lightweight, fully open-source, and cross-platform (Windows, macOS, Linux).
+* **Pyramidal FastDTW Search (Module B)**: Hierarchical 3-level resolution matrix ($1/16 \to 1/4 \to 1/1$) delivering $O(N)$ quasi-linear performance on long items.
+* **Psychoacoustic Breath Protection (Module C)**: Identifies inhalations via high-frequency Air energy vs. Sub-bass ratios, preventing time-stretch artifacts and unnatural breath distortion.
+* **4-Band Spectral DSP**: Direct Form I Biquad Butterworth filters divide signals into Sub, Mid, Presence, and Air bands for precise feature correlation.
+* **Macro Pre-Alignment Engine**: Combines Audio Fingerprinting (peak-pair hashes) and WLNCC cross-correlation to physically shift Dub items before micro-alignment begins.
+* **Itakura Slope Parallelogram**: Geometrically constrains time warping to prevent unnatural time compression or "staircase" artifacts.
+* **Asynchronous Non-Blocking UI**: Slices heavy DSP matrix calculations into 12ms time budgets via `reaper.defer`, ensuring REAPER's GUI never freezes.
+* **Click-Free Processing**: Snaps stretch markers to source zero-crossings and applies customizable stretch fades.
 
 ---
 
-## Usage
+## 📸 Screenshots
 
-1. **Select all items** to align (reference + dubs)
-2. Click **Capture REFERENCE** — the first selected item becomes the reference
-3. Click **Capture DUBS** — all other selected items are registered as targets
-4. Adjust parameters as needed (see below)
-5. Click **ALIGN** — Stretch Markers are placed automatically
-6. If the result is unsatisfactory: **Remove stretch markers** to revert
+*(Replace with animated GIFs or screenshots of VoxAlign in action)*
 
-> The **ALIGN** button hooks into REAPER's native Undo system. `Ctrl+Z` restores the previous state.
+| Main Alignment Interface | Diagnostics & Logs |
+| :---: | :---: |
+| ![VoxAlign Interface](https://via.placeholder.com/450x300.png?text=VoxAlign+UI+Screenshot) | ![VoxAlign Logs](https://via.placeholder.com/450x300.png?text=Diagnostics+Log+Screenshot) |
 
 ---
 
-## Parameters
+## 🛠️ Requirements & Installation
 
-### Macro-Alignment
-| Parameter | Description |
-|---|---|
-| `Enable Macro-Alignment` | Enables / disables Step 1 |
-| `Rigid Align` | Physically moves the item in the project timeline in addition to markers |
-| `max_shift_sec` | Maximum offset searched (in seconds) |
-| `method` | AUTO / FINGERPRINT / WAVEFORM / ENVELOPE |
+### Requirements
+* **Cockos REAPER** v7.0 or higher.
+* **ReaImGui** extension v0.9.3 or higher (available via ReaPack).
 
-### Segmentation
-| Parameter | Description |
-|---|---|
-| `ZCR Max (Tonality)` | Zero Crossing Rate threshold — lower values restrict alignment to vowels only |
-| `Consonant Sensitivity (Flux)` | Sensitivity to consonants and transients |
-| `Gap Bridging (ms)` | Maximum silence duration between two blobs before merging them |
+---
+Manual Installation
 
-### DTW & Micro-Alignment
-| Parameter | Description |
-|---|---|
-| `Minimum local confidence` | Minimum score for an anchor to be kept (0 = keep all, 0.5 = very selective) |
-| `DTW Anti-staircase` | Slope penalty to force smooth and natural DTW paths |
-| `Max stretch ratio` | Maximum allowed stretch ratio per segment |
-| `Alignment strength` | 1.0 = full alignment, 0.5 = halfway between original and target |
-| `Dynamic micro-alignment` | Enables adaptive windows based on attack type |
-| `Zero Crossing` | Snaps markers to zero-crossings to prevent clicks |
+1. Download `VoxAlign_v14.15.0.lua` from the [Latest Releases](https://www.google.com/search?q=https://github.com/YOUR_USERNAME/YOUR_REPOSITORY/releases).
+2. Open REAPER and open the Action List (**Actions** $\to$ **Show action list...** or press `?`).
+3. Click **New action...** $\to$ **New ReaScript...**
+4. Select `VoxAlign_v14.15.0.lua` and save it.
 
 ---
 
-## Technical Architecture
+## 🚀 Quick Start Guide
 
 ```
-align_13.lua
-├── Fingerprint Engine     — acoustic fingerprinting via peak hashing
-├── Waveform Correlator    — NCC with sub-sample parabolic interpolation
-├── Envelope Correlator    — multi-band RMS correlation
-├── Adaptive Selector      — automatic consensus between the 3 methods
-├── Blob Segmenter         — adaptive detection of active vocal regions
-├── DTW Engine (chunked)   — asynchronous DTW with slope penalty
-├── Anchor Extractor       — confidence filtering + sub-frame refinement
-└── Stretch Marker Writer  — final placement with ZCR snapping and ratio validation
++-----------------------------------------------------------------------------------+
+|  1. Select Reference Item  -->  Click [ Capture REFERENCE ]                       |
+|  2. Select Dub Item(s)     -->  Click [ Capture DUBS ]                            |
+|  3. Select Preset          -->  Choose preset (e.g. Double Tracking)             |
+|  4. Align                  -->  Click [ ALIGN ]                                   |
++-----------------------------------------------------------------------------------+
+
 ```
 
-DTW computation is **chunked and asynchronous** (via `reaper.defer`) to keep the UI responsive during processing.
+1. **Capture Reference**: Select the master timing track item and click **Capture REFERENCE**.
+2. **Capture Dubs**: Select one or more target items you wish to align and click **Capture DUBS**.
+3. **Select a Preset**: Choose a preset tailored to your audio material:
+* **`2 Mics / Same Take`**: Phase-alignment only (rigid shift, no stretch markers).
+* **`Double Tracking`**: Tight alignment (90% strength) for overdubbed lead vocals.
+* **`Backing Vocals`**: Flexible alignment (80% strength) for natural multi-singer harmonies.
+* **`Harmonic Instrument`**: Tuned for acoustic guitars, pianos, and string sections.
+* **`Percussive / Bass`**: High transient sensitivity for drums and plucked bass.
+
+
+4. **Execute**: Click **ALIGN**.
 
 ---
 
-## Author
+## 🧠 Algorithmic Workflow
 
-**Acrosonus Mastering**
+```
++-----------------------------------------------------------------------+
+|                         AUDIO INPUT (Ref & Dubs)                      |
++-----------------------------------------------------------------------+
+                                    |
+                                    v
++-----------------------------------------------------------------------+
+| STEP 1: MACRO ALIGNMENT (Fingerprint / WLNCC Cross-Correlation)       |
+| -> Calculates global time offset -> Performs Rigid Item Shift         |
++-----------------------------------------------------------------------+
+                                    |
+                                    v
++-----------------------------------------------------------------------+
+| STEP 1.5: 4-BAND DSP & FEATURE EXTRACTION                             |
+| -> Biquad Filters: Low (<300Hz), Mid (300-2.5k), High (2.5k-6k), Air (>6k)|
+| -> Extracts RMS, ZCR, High-Frequency Spectral Flux, Delta RMS          |
+| -> SegmentBlobs: Vocal Blob Mapping & Gap Bridging                    |
+| -> Module C: Psychoacoustic Breath Protection Marking                 |
++-----------------------------------------------------------------------+
+                                    |
+                                    v
++-----------------------------------------------------------------------+
+| STEP 2: FASTDTW PYRAMIDAL WARPING ENGINE (Module B)                   |
+| -> Level 3 (1/16 Resolution): Coarse global path search              |
+| -> Level 2 (1/4 Resolution): Corridor-guided refinement               |
+| -> Level 1 (1/1 Resolution): Fine alignment + Itakura Constraint Band |
++-----------------------------------------------------------------------+
+                                    |
+                                    v
++-----------------------------------------------------------------------+
+| POST-PROCESSING & MARKER PLACEMENT                                    |
+| -> Smart Anchor Filtering (Confidence, Physical Drift Check, Breaths) |
+| -> Sub-Frame Micro-Alignment & Zero-Crossing Snapping                 |
+| -> Apply Stretch Markers to Take                                      |
++-----------------------------------------------------------------------+
+
+```
 
 ---
 
-## License
+## 📊 Preset Overview
 
-Free for personal and professional use. Redistribution with attribution required.
+| Preset Name | Target Material | Rigid Shift | Stretch Markers | Align Strength | Drift Limit | Breath Protect |
+| --- | --- | --- | --- | --- | --- | --- |
+| **`2 Mics / Same Take`** | Phase alignment (2 mics, 1 take) | Yes | No | N/A | $0.060\text{s}$ | Disabled |
+| **`Double Tracking`** | Overdubbed lead vocals | Yes | Yes | 90% | $0.120\text{s}$ | **Enabled** |
+| **`Backing Vocals`** | Multi-vocal choirs & harmonies | Yes | Yes | 80% | $0.150\text{s}$ | **Enabled** |
+| **`Harmonic Instrument`** | Guitars, pianos, strings | Yes | Yes | 85% | $0.150\text{s}$ | Disabled |
+| **`Percussive / Bass`** | Drums, percussion, bass guitar | Yes | Yes | 95% | $0.100\text{s}$ | Disabled |
+
+---
+
+## 🤝 Contributing
+
+Contributions, bug reports, and feature requests are very welcome!
+
+1. **Fork** the repository.
+2. Create a new branch (`git checkout -b feature/AmazingFeature`).
+3. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`).
+4. **Push** to the branch (`git push origin feature/AmazingFeature`).
+5. Open a **Pull Request**.
+
+---
+
+## 📜 License
+
+Distributed under the **MIT License**. See [`LICENSE`](https://www.google.com/search?q=LICENSE) for more information.
+
+---
+
+## 🙏 Acknowledgments
+
+* **Cockos REAPER Team** for providing an extraordinary API and ReaScript ecosystem.
+* **cfillion** for maintaining ReaImGui and ReaPack.
+* The REAPER Community for testing and feedback.
+
+```
+
+---
+
+### Ce que tu as à personnaliser dans ce fichier :
+1. Remplace `YOUR_USERNAME` et `YOUR_REPOSITORY` par tes identifiants GitHub.
+2. Si tu ajoutes des images/GIFs de démonstration dans ton dépôt, remplace les liens `placeholder` dans la section `Screenshots`.
+
+```
