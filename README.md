@@ -27,7 +27,7 @@ Powered by a **3-Level Pyramidal FastDTW engine**, **4-band spectral Biquad anal
 
 ## 📸 Screenshots
 
-*(Replace with animated GIFs or screenshots of VoxAlign in action)*
+*( GIFs or  VoxAlign)*
 
 | Main Alignment Interface | Diagnostics & Logs |
 | :---: | :---: |
