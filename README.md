@@ -145,7 +145,7 @@ Contributions, bug reports, and feature requests are very welcome!
 
 ## 📜 License
 
-Distributed under the **MIT License**. See [`LICENSE`](https://www.google.com/search?q=LICENSE) for more information.
+
 
 ---
 
@@ -157,10 +157,5 @@ Distributed under the **MIT License**. See [`LICENSE`](https://www.google.com/se
 
 ```
 
----
-
-### Ce que tu as à personnaliser dans ce fichier :
-1. Remplace `YOUR_USERNAME` et `YOUR_REPOSITORY` par tes identifiants GitHub.
-2. Si tu ajoutes des images/GIFs de démonstration dans ton dépôt, remplace les liens `placeholder` dans la section `Screenshots`.
 
 ```
