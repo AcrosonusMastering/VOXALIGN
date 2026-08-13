@@ -33,7 +33,9 @@ Powered by a **3-Level Pyramidal FastDTW engine**, **4-band spectral Biquad anal
 
 ## 📸 Screenshots
 
+
 The alignment parameter is set to 80% in the example; is it possible to increase it to achieve an even tighter alignment
+
 
 <img width="800" height="427" alt="2026-08-1310-31-09-ezgif com-video-to-gif-converter(1)" src="https://github.com/user-attachments/assets/ec005d19-20e1-447d-9104-a4b64b536e6c" />
 
