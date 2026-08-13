@@ -47,7 +47,7 @@ Manual Installation
 1. Download `VoxAlign_v14.15.0.lua` from the [Latest Releases](https://www.google.com/search?q=https://github.com/YOUR_USERNAME/YOUR_REPOSITORY/releases).
 2. Open REAPER and open the Action List (**Actions** $\to$ **Show action list...** or press `?`).
 3. Click **New action...** $\to$ **New ReaScript...**
-4. Select `VoxAlign_v14.15.0.lua` and save it.
+4. Select `VoxAlign_v1.lua` and save it.
 
 ---
 
@@ -129,22 +129,18 @@ Manual Installation
 | **`Harmonic Instrument`** | Guitars, pianos, strings | Yes | Yes | 85% | $0.150\text{s}$ | Disabled |
 | **`Percussive / Bass`** | Drums, percussion, bass guitar | Yes | Yes | 95% | $0.100\text{s}$ | Disabled |
 
----
-
-## 🤝 Contributing
-
-Contributions, bug reports, and feature requests are very welcome!
-
-1. **Fork** the repository.
-2. Create a new branch (`git checkout -b feature/AmazingFeature`).
-3. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`).
-4. **Push** to the branch (`git push origin feature/AmazingFeature`).
-5. Open a **Pull Request**.
 
 ---
 
 ## 📜 License
-
+VoxAlign is open-source software released under the GNU General Public License v3.0 (GPLv3).
+GPLv3 License Summary
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
+Public License as published by the Free Software Foundation, either version 3 of the License, or (at your
+option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.
 
 
 ---
