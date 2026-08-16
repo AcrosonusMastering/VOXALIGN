@@ -1,6 +1,6 @@
 -- @description VoxAlign v14.15.1 — FastDTW Pyramidal & Breath Protection
 -- @version 14.15.1
--- @author Acrosonus Mastering & Gemini
+-- @author Acrosonus Mastering
 -- @about Hybrid temporal alignment for REAPER with 4-band spectral analysis, FastDTW Pyramid (1/16->1/4->1/1), Itakura bounds, and Breath Protection.
  
 for key in pairs(reaper) do _G[key] = reaper[key] end 
